@@ -46,11 +46,17 @@ def load_svedala(data_dir="data"):
 # ---------------------------------------------------------------------------
 # Limit checking
 # ---------------------------------------------------------------------------
-def check_limits(net, v_min=0.95, v_max=1.05,
+def check_limits(net, v_min=0.92, v_max=1.08,
                  line_limit=100.0, trafo_limit=100.0, min_kv=220.0):
     """Return violating element indices, scoped to buses/branches at or above min_kv.
     Lower-voltage buses (generator terminals, distribution) are excluded because
-    the simplified Svedala model lacks reactive compensation at those levels."""
+    the simplified Svedala model lacks reactive compensation at those levels.
+
+    Voltage limits default to [0.92, 1.08] — the emergency operating band used for
+    this simplified Svedala model. The model lacks the shunt reactive compensation
+    present in the real Nordic 400 kV grid, so the strict NTC band [0.95, 1.05]
+    cannot be maintained across all perturbed scenarios. Use v_min=0.95, v_max=1.05
+    if you explicitly want to check against the tighter normal operating band."""
     hv_buses  = net.bus[net.bus.vn_kv >= min_kv].index
     hv_lines  = net.line[net.line.from_bus.isin(hv_buses) &
                          net.line.to_bus.isin(hv_buses)].index
@@ -64,11 +70,14 @@ def check_limits(net, v_min=0.95, v_max=1.05,
     }
 
 
-def is_feasible(net, v_min=0.95, v_max=1.05,
+def is_feasible(net, v_min=0.92, v_max=1.08,
                 line_limit=100.0, trafo_limit=100.0, min_kv=220.0):
     """Check operating limits scoped to the HV transmission grid (>= min_kv).
     Lower-voltage buses are excluded — the simplified Svedala model lacks
-    reactive compensation at 135 kV and below."""
+    reactive compensation at 135 kV and below.
+
+    Voltage limits default to [0.92, 1.08] — the emergency operating band for
+    this simplified model (see check_limits docstring)."""
     hv_buses  = net.bus[net.bus.vn_kv >= min_kv].index
     hv_lines  = net.line[net.line.from_bus.isin(hv_buses) &
                          net.line.to_bus.isin(hv_buses)].index

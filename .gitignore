@@ -26,4 +26,14 @@ build/
 .vscode/settings.json
 .idea/
 
+# Instructor-only files — never commit these to the student repo
+answer_key.csv
+generate_answer_key.py
+generate_student_snapshots.py
+assignment_helper.ipynb
+student_snapshots/MANIFEST.csv
+data/n1_results.csv
+data/ttc_pos.json
+data/capacity_sweep_pos.csv
+data/capacity_sweep_neg.csv
 

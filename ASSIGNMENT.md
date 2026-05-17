@@ -34,8 +34,8 @@ Three scenario families are used, distributed roughly evenly across the class:
 
 | Scenario              | Hydro     | Thermal   | Loads     | Character                                |
 |-----------------------|-----------|-----------|-----------|------------------------------------------|
-| `wet_hydro_mild_winter` | × 1.05–1.20 | × 0.65–0.85 | × 1.00       | Heavy NORR exports, NORR→MITT stressed   |
-| `cold_dry_winter`       | × 0.80–0.95 | × 1.00–1.15 | × 1.05–1.15  | High demand, more thermal, possibly tight |
+| `wet_hydro_mild_winter` | × 1.00–1.05 | × 0.78–0.88 | × 1.00       | Heavy NORR exports, NORR→MITT stressed   |
+| `cold_dry_winter`       | × 0.80–0.95 | × 1.00–1.10 | × 1.05–1.12  | High demand, more thermal, possibly tight |
 | `dry_summer_low_load`   | × 0.70–0.90 | × 0.85–1.00 | × 0.85–0.95  | Both sources reduced, low load           |
 
 Your **TTC numbers, your binding contingency, and your written discussion**
@@ -54,8 +54,12 @@ range are seeded by their respective student IDs.
 - **Grid:** Svedala (simplified) from `KTH-EPE/CIM_exportimport`. Topology and
   ratings are identical for everyone.
 - **Zones:** `ZON_NORR` (source), `ZON_MITT` (sink).
-- **Operating limits:** voltage band [0.95, 1.05] p.u., line and transformer
-  loading ≤ 100 %.
+- **Operating limits:** voltage band [0.92, 1.08] p.u., line and transformer
+  loading ≤ 100 %. *(The simplified Svedala model lacks the shunt reactive
+  compensation present in the real Nordic grid. The strict NTC band [0.95, 1.05]
+  cannot be maintained under all perturbed scenarios; [0.92, 1.08] is the
+  emergency operating band used throughout this assignment and is consistent with
+  how the student snapshots were generated.)*
 - **GSK:** Pmax-proportional, in both zones (`tools.gsk_pmax`).
 - **Slack:** `HÄLLAN_G1` in `ZON_EXTERN` (no `ext_grid` in this model).
 
